@@ -1,0 +1,73 @@
+{
+    "info": {
+        "name": "Customer Insert API (Supabase)",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:3000"
+        }
+    ],
+    "item": [
+        {
+            "name": "Insert customer",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": "{{baseUrl}}/api/customer",
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"customerid\": {{$timestamp}}, \"lastname\": \"Legaspi\", \"firstname\": \"Allain Ralph\", \"mobileno\": \"09123456789\", \"address\": \"Cebu City\"}"
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Status is 201', () => pm.response.to.have.status(201));",
+                            "pm.test('Returns inserted row', () => {",
+                            "  const body = pm.response.json();",
+                            "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                            "  pm.expect(body.data[0].lastname).to.eql('Legaspi');",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Missing required fields returns 400",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": "{{baseUrl}}/api/customer",
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"lastname\": \"Doe\"}"
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Status is 400', () => pm.response.to.have.status(400));"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
