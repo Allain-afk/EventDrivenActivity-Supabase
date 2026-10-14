@@ -1,7 +1,7 @@
 # PostgreSQL Insert API with Supabase
 
 ## Setup
-1. In Supabase, open **SQL Editor** and run [schema.sql](schema.sql).
+1. In Supabase, open **SQL Editor** and run [schema.sql](initialschema.sql).
 2. Edit `.env` with your **Project URL** and **anon public key** (Project Settings → API).
 3. `npm install`, then `npm run dev` (or `npm start`).
 
